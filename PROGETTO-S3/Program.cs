@@ -1,7 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using PROGETTO_S3.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+//Add conection
+
+var conn = builder.Configuration.GetConnectionString("SqlServer");
+builder
+    .Services
+    .AddDbContext<DataContext>(opt => opt.UseSqlServer(conn));
 
 var app = builder.Build();
 
