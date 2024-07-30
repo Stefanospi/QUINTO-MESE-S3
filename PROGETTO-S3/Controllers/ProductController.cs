@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PROGETTO_S3.Services.Products;
 using PROGETTO_S3.Models;
+using System.Threading.Tasks;
 
 namespace PROGETTO_S3.Controllers
 {
@@ -14,21 +15,28 @@ namespace PROGETTO_S3.Controllers
         {
             _productService = productService;
         }
-        [HttpGet("Create")]
-        public IActionResult Create()
+        [HttpGet("CreateProduct")]
+        public IActionResult CreateProduct()
         {
             return View();
         }
-        [HttpPost("Create")]
+        [HttpPost("CreateProduct")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Product product)
+        public async Task<IActionResult> Create(Product product)
         {
             if (ModelState.IsValid)
             {
-                _productService.CreateProduct(product);
+                await _productService.CreateProduct(product);
                 return RedirectToAction("Index");
             }
             return View(product);
+        }
+
+        [HttpGet("ProductList")]
+        public async Task<IActionResult> ProductListAsync()
+        {
+            var products = await _productService.GetAllProducts();
+            return PartialView("ProductListPartial", products);
         }
     }
 }

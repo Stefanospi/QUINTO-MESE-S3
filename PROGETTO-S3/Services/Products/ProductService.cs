@@ -1,4 +1,5 @@
-﻿using PROGETTO_S3.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PROGETTO_S3.Models;
 
 namespace PROGETTO_S3.Services.Products
 {
@@ -10,16 +11,16 @@ namespace PROGETTO_S3.Services.Products
             _dataContext = dataContext;
 
         }
-        public Product CreateProduct(Product product)
+        public async Task<Product> CreateProduct(Product product)
         {
-            _dataContext.Products.Add(product);
-            _dataContext.SaveChanges();
+            await _dataContext.Products.AddAsync(product);
+            await _dataContext.SaveChangesAsync();
             return product;
         }
 
-        public List<Product> GetAllProducts()
+        public async Task<List<Product>> GetAllProducts()
         {
-            return _dataContext.Products.ToList();
+            return await _dataContext.Products.ToListAsync();
         }
     }
 }
