@@ -12,8 +12,8 @@ using PROGETTO_S3.Models;
 namespace PROGETTO_S3.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240730135201_AggProd")]
-    partial class AggProd
+    [Migration("20240730153916_Photo")]
+    partial class Photo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -136,6 +136,9 @@ namespace PROGETTO_S3.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<byte[]>("Photo")
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");

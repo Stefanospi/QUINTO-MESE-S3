@@ -16,8 +16,7 @@ namespace PROGETTO_S3.Models
         [Range(0,100)]
         public decimal Price { get; set; }
 
-        [Required]
-        public required byte[] Photo { get; set; }
+        public byte[]? Photo { get; set; }
 
         [Range(0,60)]
         public int DeliveryTimeInMinutes { get; set; }

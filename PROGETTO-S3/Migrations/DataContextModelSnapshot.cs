@@ -135,7 +135,6 @@ namespace PROGETTO_S3.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<byte[]>("Photo")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<decimal>("Price")

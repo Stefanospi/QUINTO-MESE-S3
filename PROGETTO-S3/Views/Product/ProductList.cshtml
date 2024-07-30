@@ -3,10 +3,12 @@
 <ul>
     @foreach (var product in Model)
     {
-        <li>@product.Name</li>
-        <li>@product.Price</li>
-        <li><img src="@product.Photo" alt="@product.Name" /></li>
-        <li>@product.DeliveryTimeInMinutes</li>
-        <li>@string.Join(", ", product.Ingridients.Select(i => i.Name))</li>
+        <li>
+            <h3>@product.Name</h3>
+            <p>Price: @product.Price</p>
+            <img src="@product.Photo" alt="@product.Name" style="width:100px;height:auto;" />
+            <p>Delivery Time: @product.DeliveryTimeInMinutes minutes</p>
+            <p>Ingredients: @string.Join(", ", product.Ingridients.Select(i => i.Name))</p>
+        </li>
     }
 </ul>

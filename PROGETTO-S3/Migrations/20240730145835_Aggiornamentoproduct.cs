@@ -5,7 +5,7 @@
 namespace PROGETTO_S3.Migrations
 {
     /// <inheritdoc />
-    public partial class AggProd : Migration
+    public partial class Aggiornamentoproduct : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
