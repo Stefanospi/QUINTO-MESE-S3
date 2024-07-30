@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PROGETTO_S3.Models;
+using PROGETTO_S3.Services.Products;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,10 @@ var conn = builder.Configuration.GetConnectionString("SqlServer");
 builder
     .Services
     .AddDbContext<DataContext>(opt => opt.UseSqlServer(conn));
+
+builder
+    .Services
+    .AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 

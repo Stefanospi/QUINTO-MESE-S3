@@ -33,10 +33,10 @@ namespace PROGETTO_S3.Controllers
         }
 
         [HttpGet("ProductList")]
-        public async Task<IActionResult> ProductListAsync()
+        public async Task<IActionResult> ProductList()
         {
             var products = await _productService.GetAllProducts();
-            return PartialView("ProductListPartial", products);
+            return PartialView("ProductList", products);
         }
     }
 }

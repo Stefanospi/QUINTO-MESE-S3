@@ -20,7 +20,9 @@ namespace PROGETTO_S3.Services.Products
 
         public async Task<List<Product>> GetAllProducts()
         {
-            return await _dataContext.Products.ToListAsync();
+            return await _dataContext.Products
+                .Include(p => p.Ingridients)
+                .ToListAsync();
         }
     }
 }

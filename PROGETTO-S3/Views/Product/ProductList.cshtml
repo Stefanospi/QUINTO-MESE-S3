@@ -1,0 +1,12 @@
+﻿@model IEnumerable<PROGETTO_S3.Models.Product>
+
+<ul>
+    @foreach (var product in Model)
+    {
+        <li>@product.Name</li>
+        <li>@product.Price</li>
+        <li><img src="@product.Photo" alt="@product.Name" /></li>
+        <li>@product.DeliveryTimeInMinutes</li>
+        <li>@string.Join(", ", product.Ingridients.Select(i => i.Name))</li>
+    }
+</ul>
