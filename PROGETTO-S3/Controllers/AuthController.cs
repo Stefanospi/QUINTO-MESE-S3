@@ -50,7 +50,7 @@ namespace PROGETTO_S3.Controllers
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                return RedirectToAction("ProductList", "Product");
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {

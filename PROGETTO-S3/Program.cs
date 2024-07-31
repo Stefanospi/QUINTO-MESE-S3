@@ -38,7 +38,7 @@ builder
     .Services
     .AddDbContext<DataContext>(opt => opt.UseSqlServer(conn));
 
-//ADD SERVICES
+//SERVICES
 builder
     .Services
     .AddScoped<IProductService, ProductService>()

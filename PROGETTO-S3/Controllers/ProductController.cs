@@ -51,7 +51,7 @@ namespace PROGETTO_S3.Controllers
         public async Task<IActionResult> ProductList()
         {
             var products = await _productService.GetAllProducts();
-            return PartialView("ProductList", products);
+            return View("ProductList", products);
         }
     }
 }
