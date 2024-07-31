@@ -3,6 +3,7 @@ using PROGETTO_S3.Services.Products;
 using PROGETTO_S3.Models;
 using System.Threading.Tasks;
 using PROGETTO_S3.Models.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PROGETTO_S3.Controllers
 {
@@ -16,6 +17,7 @@ namespace PROGETTO_S3.Controllers
         {
             _productService = productService;
         }
+        [Authorize(Policy = "AdminPolicy")]
         [HttpGet("CreateProduct")]
         public async Task<IActionResult> CreateProduct()
         {

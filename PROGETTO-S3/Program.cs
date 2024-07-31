@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using PROGETTO_S3.Models;
+using PROGETTO_S3.Services.Auth;
 using PROGETTO_S3.Services.Products;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,14 +12,37 @@ builder.Services.AddControllersWithViews();
 
 //Add conection
 
+//AUTH
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Auth/Register";
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        options.SlidingExpiration = true;
+        options.Cookie.SameSite = SameSiteMode.Strict;
+    });
+
+//POLICY
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "admin");
+    });
+});
+
+//DATA CONTEXT
 var conn = builder.Configuration.GetConnectionString("SqlServer");
 builder
     .Services
     .AddDbContext<DataContext>(opt => opt.UseSqlServer(conn));
 
+//ADD SERVICES
 builder
     .Services
-    .AddScoped<IProductService, ProductService>();
+    .AddScoped<IProductService, ProductService>()
+    .AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
@@ -32,6 +58,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
