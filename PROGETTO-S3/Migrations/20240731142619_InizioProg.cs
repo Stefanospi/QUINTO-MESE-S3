@@ -6,11 +6,40 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PROGETTO_S3.Migrations
 {
     /// <inheritdoc />
-    public partial class Aggiornamentodbcompleto : Migration
+    public partial class InizioProg : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Ingredients",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ingredients", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    IdProduct = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Photo = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    DeliveryTimeInMinutes = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.IdProduct);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
@@ -37,6 +66,30 @@ namespace PROGETTO_S3.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.IdUser);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Productingredients",
+                columns: table => new
+                {
+                    IngredientsId = table.Column<int>(type: "int", nullable: false),
+                    ProductsIdProduct = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Productingredients", x => new { x.IngredientsId, x.ProductsIdProduct });
+                    table.ForeignKey(
+                        name: "FK_Productingredients_Ingredients_IngredientsId",
+                        column: x => x.IngredientsId,
+                        principalTable: "Ingredients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Productingredients_Products_ProductsIdProduct",
+                        column: x => x.ProductsIdProduct,
+                        principalTable: "Products",
+                        principalColumn: "IdProduct",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -130,6 +183,11 @@ namespace PROGETTO_S3.Migrations
                 column: "IdUser");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Productingredients_ProductsIdProduct",
+                table: "Productingredients",
+                column: "ProductsIdProduct");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RoleUser_UsersIdUser",
                 table: "RoleUser",
                 column: "UsersIdUser");
@@ -142,10 +200,19 @@ namespace PROGETTO_S3.Migrations
                 name: "OrderedProducts");
 
             migrationBuilder.DropTable(
+                name: "Productingredients");
+
+            migrationBuilder.DropTable(
                 name: "RoleUser");
 
             migrationBuilder.DropTable(
                 name: "Orders");
+
+            migrationBuilder.DropTable(
+                name: "Ingredients");
+
+            migrationBuilder.DropTable(
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "Roles");

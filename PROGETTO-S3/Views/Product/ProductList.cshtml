@@ -1,14 +1,56 @@
 ﻿@model IEnumerable<PROGETTO_S3.Models.Product>
 
-<ul>
-    @foreach (var product in Model)
-    {
-        <li>
-            <h3>@product.Name</h3>
-            <p>Price: @product.Price</p>
-            <img src="@product.Photo" alt="@product.Name" style="width:100px;height:auto;" />
-            <p>Delivery Time: @product.DeliveryTimeInMinutes minutes</p>
-            <p>Ingredients: @string.Join(", ", product.Ingridients.Select(i => i.Name))</p>
-        </li>
-    }
-</ul>
+<h1>Products List</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Delivery Time (min)</th>
+            <th>Image</th>
+            <th>Ingredients</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.IdProduct</td>
+                <td>@product.Name</td>
+                <td>@product.Price.ToString("C")</td>
+                <td>@product.DeliveryTimeInMinutes</td>
+                <td>
+                    @if (product.Photo != null && product.Photo.Length > 0)
+                    {
+                        <img src="data:image/png;base64,@Convert.ToBase64String(product.Photo)" alt="@product.Name" style="width: 100px; height: auto;" />
+                    }
+                    else
+                    {
+                        <span>No image</span>
+                    }
+                </td>
+                <td>
+                    @if (product.Ingredients.Any())
+                    {
+                        <ul>
+                            @foreach (var ingredient in product.Ingredients)
+                            {
+                                <li>@ingredient.Name</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>No ingredients</span>
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("CreateProducts", "Products")" class="btn btn-success">Create New Product</a>

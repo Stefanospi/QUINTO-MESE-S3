@@ -2,6 +2,7 @@
 using PROGETTO_S3.Services.Products;
 using PROGETTO_S3.Models;
 using System.Threading.Tasks;
+using PROGETTO_S3.Models.ViewModel;
 
 namespace PROGETTO_S3.Controllers
 {
@@ -16,21 +17,33 @@ namespace PROGETTO_S3.Controllers
             _productService = productService;
         }
         [HttpGet("CreateProduct")]
-        public IActionResult CreateProduct()
+        public async Task<IActionResult> CreateProduct()
         {
-            return View();
+            var ingredients = await _productService.GetAllIngridients();
+            var viewModel = new CreateProductViewModel
+            {
+                Product = new Product
+                {
+                    Name = string.Empty,
+                    Price = 0.0m,
+                    DeliveryTimeInMinutes = 0
+                },
+                Ingredients = ingredients
+            };
+            return View(viewModel);
         }
         [HttpPost("CreateProduct")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> CreateProduct(CreateProductViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                await _productService.CreateProduct(product);
-                return RedirectToAction("Index");
+                var product = await _productService.CreateProduct(viewModel);
+                return RedirectToAction("ProductList");
             }
-            return View(product);
+            return View(viewModel);
         }
+
 
         [HttpGet("ProductList")]
         public async Task<IActionResult> ProductList()

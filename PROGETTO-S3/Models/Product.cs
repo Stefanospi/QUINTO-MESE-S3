@@ -22,7 +22,7 @@ namespace PROGETTO_S3.Models
         public int DeliveryTimeInMinutes { get; set; }
 
         //Foreign Key (Riferimento alla tabella ingredients)
-        public List<Ingridient> Ingridients { get; set; } = new List<Ingridient>();
+        public List<ingredients> Ingredients { get; set; } = new List<ingredients>();
 
         
     }

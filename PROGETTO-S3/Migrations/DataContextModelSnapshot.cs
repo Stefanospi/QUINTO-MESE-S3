@@ -22,39 +22,6 @@ namespace PROGETTO_S3.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("IngridientProduct", b =>
-                {
-                    b.Property<int>("IngridientsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductsIdProduct")
-                        .HasColumnType("int");
-
-                    b.HasKey("IngridientsId", "ProductsIdProduct");
-
-                    b.HasIndex("ProductsIdProduct");
-
-                    b.ToTable("IngridientProduct");
-                });
-
-            modelBuilder.Entity("PROGETTO_S3.Models.Ingridient", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Ingridients");
-                });
-
             modelBuilder.Entity("PROGETTO_S3.Models.Order", b =>
                 {
                     b.Property<int>("IdOrder")
@@ -191,6 +158,39 @@ namespace PROGETTO_S3.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("PROGETTO_S3.Models.ingredients", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Ingredients");
+                });
+
+            modelBuilder.Entity("Productingredients", b =>
+                {
+                    b.Property<int>("IngredientsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsIdProduct")
+                        .HasColumnType("int");
+
+                    b.HasKey("IngredientsId", "ProductsIdProduct");
+
+                    b.HasIndex("ProductsIdProduct");
+
+                    b.ToTable("Productingredients");
+                });
+
             modelBuilder.Entity("RoleUser", b =>
                 {
                     b.Property<int>("RoleIdRole")
@@ -204,21 +204,6 @@ namespace PROGETTO_S3.Migrations
                     b.HasIndex("UsersIdUser");
 
                     b.ToTable("RoleUser");
-                });
-
-            modelBuilder.Entity("IngridientProduct", b =>
-                {
-                    b.HasOne("PROGETTO_S3.Models.Ingridient", null)
-                        .WithMany()
-                        .HasForeignKey("IngridientsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PROGETTO_S3.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsIdProduct")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("PROGETTO_S3.Models.Order", b =>
@@ -249,6 +234,21 @@ namespace PROGETTO_S3.Migrations
                     b.Navigation("Order");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Productingredients", b =>
+                {
+                    b.HasOne("PROGETTO_S3.Models.ingredients", null)
+                        .WithMany()
+                        .HasForeignKey("IngredientsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PROGETTO_S3.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsIdProduct")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("RoleUser", b =>
