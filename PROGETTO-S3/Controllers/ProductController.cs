@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace PROGETTO_S3.Controllers
 {
-    [ApiController]
+
     [Route("Products")]
     public class ProductController : Controller
     {

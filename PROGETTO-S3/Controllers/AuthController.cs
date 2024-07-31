@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace PROGETTO_S3.Controllers
 {
-    [ApiController]
+
     [Route("Auth")]
     public class AuthController : Controller
     {
