@@ -77,5 +77,20 @@ namespace PROGETTO_S3.Controllers
             }
 
         }
+        [HttpGet]
+        public async Task<IActionResult> AllOrders()
+        {
+            var orders = await _orderService.GetAllOrders();
+            return View(orders);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> IsProcessed(int id)
+        {
+            await _orderService.IsProcessedTrue(id);
+            return RedirectToAction("AllOrders");
+        }
+
     }
 }

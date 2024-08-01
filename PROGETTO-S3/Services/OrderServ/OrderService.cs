@@ -1,4 +1,5 @@
-﻿using PROGETTO_S3.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using PROGETTO_S3.Models;
 using PROGETTO_S3.Services.Cart;
 
 namespace PROGETTO_S3.Services.OrderServ
@@ -44,6 +45,30 @@ namespace PROGETTO_S3.Services.OrderServ
 
             await _dataContext.SaveChangesAsync();
             await _cartService.ClerCart(); // Assicurati che il metodo ClearCart esista in ICartService
+        }
+
+        public async Task<List<Order>> GetAllOrders()
+        {
+            var orderListFalse = await _dataContext.Orders
+                .Where(o => o.IsProcessed == false)
+                .ToListAsync();
+
+            return orderListFalse;
+
+        }
+
+        public async Task<Order> IsProcessedTrue(int id)
+        {
+            var orderById = await _dataContext.Orders.FirstOrDefaultAsync(o => o.IdOrder == id);
+
+            if(orderById.IsProcessed == false)
+            {
+                orderById.IsProcessed = true;
+                await _dataContext.SaveChangesAsync();
+            }
+
+            return orderById;
+
         }
     }
 }
