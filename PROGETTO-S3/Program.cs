@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PROGETTO_S3.Models;
 using PROGETTO_S3.Services.Auth;
 using PROGETTO_S3.Services.Cart;
+using PROGETTO_S3.Services.OrderServ;
 using PROGETTO_S3.Services.Products;
 using System.Security.Claims;
 
@@ -44,7 +45,8 @@ builder
     .Services
     .AddScoped<IProductService, ProductService>()
     .AddScoped<IUserService, UserService>()
-    .AddScoped<ICartService, CartService>();
+    .AddScoped<ICartService, CartService>()
+    .AddScoped<IOrderService,OrderService>();
 
 var app = builder.Build();
 

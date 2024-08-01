@@ -60,5 +60,11 @@ namespace PROGETTO_S3.Services.Cart
             var totalAmount = _cartItems.Sum(c => c.Price * c.Quantity);
             return Task.FromResult(totalAmount);
         }
+
+        public Task<List<CartItem>> ClerCart()
+        {
+            _cartItems.Clear();
+            return Task.FromResult( _cartItems );
+        }
     }
 }

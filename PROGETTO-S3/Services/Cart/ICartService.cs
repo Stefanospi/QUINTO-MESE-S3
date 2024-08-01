@@ -9,6 +9,7 @@ namespace PROGETTO_S3.Services.Cart
         Task<List<CartItem>> GetCartItems();
         Task RemoveFromCart(int productId);
         Task<decimal> TotalAmountOfCart();
+        Task<List<CartItem>> ClerCart();
   
     }
 }
