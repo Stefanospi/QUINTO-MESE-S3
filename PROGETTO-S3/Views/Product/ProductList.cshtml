@@ -47,6 +47,13 @@
                         <span>No ingredients</span>
                     }
                 </td>
+                <td>
+                    <form asp-action="AddToCart" asp-controller="Cart" method="post">
+                        <input type="hidden" name="productId" value="@product.IdProduct" />
+                        <input type="number" name="quantity" value="1" min="1" />
+                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                    </form>
+                </td>
 
             </tr>
         }

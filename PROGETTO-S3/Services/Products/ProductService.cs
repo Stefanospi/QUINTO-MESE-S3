@@ -60,5 +60,11 @@ namespace PROGETTO_S3.Services.Products
         {
             return await _dataContext.Products.ToListAsync();
         }
+
+        public async Task<Product> GetProductById(int id)
+        {
+            var product = await _dataContext.Products.FirstOrDefaultAsync(p => p.IdProduct == id);
+            return product;
+        }
     }
 }
