@@ -66,5 +66,6 @@ namespace PROGETTO_S3.Services.Products
             var product = await _dataContext.Products.FirstOrDefaultAsync(p => p.IdProduct == id);
             return product;
         }
+
     }
 }

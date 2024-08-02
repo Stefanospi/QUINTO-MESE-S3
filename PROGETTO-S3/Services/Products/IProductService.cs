@@ -10,5 +10,6 @@ namespace PROGETTO_S3.Services.Products
         public Task<List<Product>> GetAllProductIngridients();
         public Task<List<Product>> GetAllProducts();
         public Task<Product> GetProductById(int id);
+
     }
 }

@@ -60,12 +60,19 @@ namespace PROGETTO_S3.Services.OrderServ
         public async Task<Order> IsProcessedTrue(int idOrder)
         {
             var order = _dataContext.Orders.FirstOrDefault(o => o.IdOrder == idOrder);
-            if (order == null) throw new KeyNotFoundException("Order not found.");
-
-            order.IsProcessed = !order.IsProcessed;
-            await _dataContext.SaveChangesAsync();
+            if (order.IsProcessed == false)
+            {
+                order.IsProcessed = true;
+                await _dataContext.SaveChangesAsync();
+            }
+            else
+            {
+                order.IsProcessed = false;
+                await _dataContext.SaveChangesAsync();
+            }
 
             return order;
         }
+
     }
 }

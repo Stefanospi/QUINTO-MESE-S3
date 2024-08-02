@@ -90,23 +90,10 @@ namespace PROGETTO_S3.Controllers
 
         [HttpPost("IsProcessed")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> IsProcessed(int id)
+        public async Task<IActionResult> IsProcessed(int idOrder)
         {
-            try
-            {
-                await _orderService.IsProcessedTrue(id);
-                return RedirectToAction("AllOrders");
-            }
-            catch (KeyNotFoundException ex)
-            {
-                // Log the error (optional)
-                // Logger.LogError(ex, ex.Message);
-
-                // Provide a meaningful error message to the user
-                ViewBag.ErrorMessage = ex.Message;
-                var orders = await _orderService.GetAllOrders();
-                return View("AllOrders", orders); // Assicurati che "AllOrders" sia la tua vista corretta
-            }
+            await _orderService.IsProcessedTrue(idOrder);
+            return RedirectToAction("AllOrders","Cart");
         }
         [HttpGet("GetProcessedOrdersCount")]
         public async Task<IActionResult> GetProcessedOrdersCount()
@@ -124,6 +111,7 @@ namespace PROGETTO_S3.Controllers
                 .SumAsync(o => o.TotalAmount);
             return Ok(totalIncome);
         }
+
 
     }
 }
