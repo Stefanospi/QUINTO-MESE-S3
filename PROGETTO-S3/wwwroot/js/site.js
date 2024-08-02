@@ -1,48 +1,51 @@
-﻿let firstPath = '/Cart/GetProcessedOrdersCount';
+﻿
+let firstPath = '/Cart/GetProcessedOrdersCount';
 let secondPath = '/Cart/GetTotalIncome';
 
-function getProcessedOrdersCount() {
+function GetProcessedOrders() {
     $.ajax({
         url: firstPath,
         method: 'GET',
         success: (data) => {
-            const countElement = $('#processedOrdersCount');
-            countElement.addClass('border border-dark px-2 fs-4');
-            countElement.text(data);
+            const countElem = $('#processedOrdersCount');
+            countElem.addClass('border border-dark px-2 fs-4');
+            countElem.text(data);
         },
         error: (err) => {
-            console.error('Error fetching processed orders count:', err);
-            alert('Si è verificato un errore durante il recupero del conteggio degli ordini processati.');
+            console.error('Error fetching processed orders count', err);
         }
     });
 }
 
-function getTotalIncome() {
-    let date = $('#dateInput').val();
-    if (!date) {
-        alert('Seleziona una data');
-        return;
-    }
+$('#btnGetProcessedCount').on('click', () => {
+    GetProcessedOrders();
+});
 
+
+function GetTotalIncome(date) {
     $.ajax({
-        url: `${secondPath}?date=${encodeURIComponent(date)}`,
+        url: secondPath,
         method: 'GET',
+        data: { date: date.toISOString() },
         success: (data) => {
-            const countElement = $('#totalIncome');
-            countElement.addClass('border border-dark px-2 fs-4');
-            countElement.text(`Incassi per il ${date}: €${data}`);
+            const incomeElem = $('#totalIncome');
+            incomeElem.addClass('border border-dark px-2 fs-4');
+            incomeElem.text(`Total Income: ${data}`);
         },
         error: (err) => {
-            console.error('Error fetching total income:', err);
-            alert('Si è verificato un errore durante il recupero del totale incassi.');
+            console.error('Error fetching total income', err);
         }
     });
 }
 
 $('#btnGetTotalIncome').on('click', () => {
-    getTotalIncome();
+    const dateValue = $('#dateInput').val();
+    if (dateValue) {
+        const date = new Date(dateValue);
+        GetTotalIncome(date);
+    } else {
+        alert('Please select a date');
+    }
 });
 
-$('#btnGetProcessedCount').on('click', () => {
-    getProcessedOrdersCount();
-});
+

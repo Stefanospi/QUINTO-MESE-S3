@@ -95,7 +95,7 @@ namespace PROGETTO_S3.Controllers
             await _orderService.IsProcessedTrue(idOrder);
             return RedirectToAction("AllOrders","Cart");
         }
-        [HttpGet]
+        [HttpGet("GetProcessedOrdersCount")]
         public async Task<IActionResult> GetProcessedOrdersCount()
         {
             var processedOrdersCount = await _dataContext.Orders.CountAsync(o => o.IsProcessed == true);
@@ -103,7 +103,7 @@ namespace PROGETTO_S3.Controllers
             return Ok(processedOrdersCount);
         }
 
-        [HttpGet]
+        [HttpGet("GetTotalIncome")]
         public async Task<IActionResult> GetTotalIncome(DateTime date)
         {
             var totalIncome = await _dataContext.Orders
