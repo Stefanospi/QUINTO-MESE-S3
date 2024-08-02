@@ -1,0 +1,57 @@
+﻿
+@@@@@@@@
+TRACCIA:
+
+/////////////////
+1) AMMINISTRATORI 
+Possono creare prodotti indicando: [ref 4]
+▪ Il nome   @@@FATTO
+▪ Una foto   @@@FATTO
+▪ Il prezzo di vendita   @@@FATTO
+▪ Il tempo di consegna   @@@FATTO
+▪ Ingredienti   @@@FATTO
+
+[ref 5]
+Gli amministratori avranno accesso ad una sezione in cui verranno elencati tutti gli ordini conclusi dagli utenti. 
+Mano a mano che gli ordini vengono evasi, l’amministrazione potrà segnare l’ordine come “EVASO”.
+A fine giornata, gli amministratori potranno interrogare la applicazione per ottenere (per mezzo di chiamate asincrone):
+▪ Il numero totale di ordini evasi,
+▪ Il totale incassato per una determinata giornata.
+
+
+/////////
+2) UTENTI
+//DA FARE:
+▪ registrazione / login [ref 1]
+▪ accedere alla lista dei prodotti in vendita [ref 2]
+▪ selezionare i prodotti per l’acquisto (indicando la quantità) [ref 2]
+
+//////
+ALTRO:
+Una volta selezionati i prodotti per l'acquisto:
+una pagina “Riepilogo ordine” deve poter visualizzare: [ref 3]
+- articoli scelti,
+- la quantità x articolo,
+- il costo totale;
+///////////////////////////////////////////////////////
+In questa stessa pagina, l’utente dovrà poter inserire: [ref 3]
+- da inserire l’indirizzo di spedizione del pranzo/cena,
+- qualche nota aggiuntiva (es. allergie)
+- pulsante "concludi ordine".
+
+
+@@@@@@@@@@
+TODO LIST:
+
+///////////////////
+todo da aggiornare:
+▪ DA ZERO registrazione / login (è in authservice + creare authcontroller) [ref 1]
+▪ DA CONTROLLARE pagina di acquisto indicando la quantità (probabilmente dalla lista già esistente di prodotti?) [ref 2]
+▪ DA LIMITARE A UTENTI REGISTRATI+LOGGATI visualizzazione prodotti [ref 2]
+▪ DA ZERO pagina "riepilogo ordine" [ref 3]
+▪ DA LIMITARE AGLI ADMIN creazione prodotti (con relativi ingredienti) [ref 4]
+▪ DA ZERO pagina gestione ordini (da rendere accessibile solo agli admin) [ref 5]
+
+///////////////
+todo opzionali:
+▪ DA ZERO creazione nuovi ingredienti (da rendere accessibile solo agli admin) (è in ingredientservice + creare ingredientscontroller)

@@ -13,11 +13,19 @@
     </div>
 }
 
-<button id="btnGetProcessedCount" class="btn-sm btn-personal my-2">Processed Orders Count:</button>
+
+<button id="btnGetProcessedCount" class="btn-sm btn-personal">N. Ordini processati:</button>
 <span id="processedOrdersCount"></span>
 
-<button id="btnGetTotalIncome" class="btn-sm btn-personal my-2">Total income:</button>
-<span id="totalIncome"></span>
+
+<div class="mt-3">
+    <div class="form-group">
+        <label for="dateInput"> Data:</label>
+        <input type="date" id="dateInput" class="form-control">
+    </div>
+    <button id="btnGetTotalIncome" class="btn btn-personal2">Tot. incassi x data</button>
+    <div id="totalIncome" class="mt-3"></div>
+</div>
 
 <table class="table table-striped border-personal">
     <thead>

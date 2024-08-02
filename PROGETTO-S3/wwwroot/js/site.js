@@ -1,6 +1,6 @@
-﻿let firstPath = '/Order/GetProcessedOrdersCount';
+﻿let firstPath = '/Cart/GetProcessedOrdersCount';
+let secondPath = '/Cart/GetTotalIncome';
 
-let secondPath = '/Order/GetTotalIncome';
 function getProcessedOrdersCount() {
     $.ajax({
         url: firstPath,
@@ -12,30 +12,37 @@ function getProcessedOrdersCount() {
         },
         error: (err) => {
             console.error('Error fetching processed orders count:', err);
+            alert('Si è verificato un errore durante il recupero del conteggio degli ordini processati.');
         }
     });
 }
 
 function getTotalIncome() {
+    let date = $('#dateInput').val();
+    if (!date) {
+        alert('Seleziona una data');
+        return;
+    }
+
     $.ajax({
-        url: secondPath,
+        url: `${secondPath}?date=${encodeURIComponent(date)}`,
         method: 'GET',
         success: (data) => {
             const countElement = $('#totalIncome');
             countElement.addClass('border border-dark px-2 fs-4');
-            countElement.text(data + "€");
+            countElement.text(`Incassi per il ${date}: €${data}`);
         },
         error: (err) => {
             console.error('Error fetching total income:', err);
+            alert('Si è verificato un errore durante il recupero del totale incassi.');
         }
     });
 }
 
+$('#btnGetTotalIncome').on('click', () => {
+    getTotalIncome();
+});
 
 $('#btnGetProcessedCount').on('click', () => {
     getProcessedOrdersCount();
-});
-
-$('#btnGetTotalIncome').on('click', () => {
-    getTotalIncome();
 });
