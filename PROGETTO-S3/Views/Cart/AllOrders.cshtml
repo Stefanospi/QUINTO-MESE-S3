@@ -1,19 +1,35 @@
 ﻿@model List<PROGETTO_S3.Models.Order>
 
 @{
-    ViewData["Title"] = "All Orders";
+    ViewData["Title"] = "Order List";
 }
 
-<h1>All Orders</h1>
+<h2>@ViewData["Title"]</h2>
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
+<button id="btnGetProcessedCount" class="btn-sm btn-primary">Processed Orders Count:</button>
+<span id="processedOrdersCount"></span>
+
+<button id="btnGetTotalIncome" class="btn-sm btn-primary">Total income:</button>
+<span id="totalIncome"></span>
 
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>Order ID</th>
+            <th>IdOrder</th>
             <th>Address</th>
+            <th>Additional Notes</th>
+            <th>Is Processed</th>
+            <th>Order Date</th>
             <th>Total Amount</th>
-            <th>Processed</th>
-            <th>Action</th>
+            <th>IdUser</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -22,18 +38,37 @@
             <tr>
                 <td>@order.IdOrder</td>
                 <td>@order.Address</td>
-                <td>@order.TotalAmount</td>
-                <td>@order.IsProcessed</td>
+                <td>@order.AdditionalNotes</td>
+                <td>
+                    @if (order.IsProcessed)
+                    {
+                        <span class="badge bg-success">Yes</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning text-dark">No</span>
+                    }
+                </td>
+                <td>@order.OrderDate.ToShortDateString()</td>
+                <td>@order.TotalAmount.ToString("C")</td>
+                <td>@order.IdUser</td>
                 <td>
                     @if (!order.IsProcessed)
                     {
-                        <form asp-action="IsProcessed" method="post">
-                            <input type="hidden" name="id" value="@order.IdOrder" />
-                            <button type="submit" class="btn btn-primary">Mark as Processed</button>
+                        <form asp-controller="Cart" asp-action="IsProcessed" method="post">
+                            <input type="hidden" name="idOrder" value="@order.IdOrder" />
+                            <button type="submit" class="btn btn-sm btn-success">Mark as Processed</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-controller="Cart" asp-action="IsProcessed" method="post">
+                            <input type="hidden" name="idOrder" value="@order.IdOrder" />
+                            <button class="btn btn-sm btn-warning">Mark as non Processed</button>
                         </form>
                     }
                 </td>
             </tr>
         }
     </tbody>
-</table>
+</table

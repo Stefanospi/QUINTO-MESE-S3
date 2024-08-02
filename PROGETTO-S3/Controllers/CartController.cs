@@ -52,11 +52,16 @@ namespace PROGETTO_S3.Controllers
             return View(cartItems);
         }
 
+
         [HttpPost("Checkout")]
         public async Task<IActionResult> Checkout(string address, string additionalNotes)
         {
             var username = User.Identity.Name;
+            if (string.IsNullOrEmpty(username)) return Unauthorized("User not logged in.");
+
             var user = await _dataContext.Users.FirstOrDefaultAsync(u => u.Username == username);
+            if (user == null) return NotFound("User not found.");
+
             try
             {
                 var order = new Order
@@ -68,28 +73,56 @@ namespace PROGETTO_S3.Controllers
 
                 await _orderService.CreateOrder(order);
 
-                return RedirectToAction("Index","Home");
-
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
+                // Log the exception ex for further analysis
                 return View(await _cartService.GetCartItems());
             }
-
         }
-        [HttpGet]
+        [HttpGet("AllOrders")]
         public async Task<IActionResult> AllOrders()
         {
             var orders = await _orderService.GetAllOrders();
             return View(orders);
         }
 
-        [HttpPost]
+        [HttpPost("IsProcessed")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> IsProcessed(int id)
         {
-            await _orderService.IsProcessedTrue(id);
-            return RedirectToAction("AllOrders");
+            try
+            {
+                await _orderService.IsProcessedTrue(id);
+                return RedirectToAction("AllOrders");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                // Log the error (optional)
+                // Logger.LogError(ex, ex.Message);
+
+                // Provide a meaningful error message to the user
+                ViewBag.ErrorMessage = ex.Message;
+                var orders = await _orderService.GetAllOrders();
+                return View("AllOrders", orders); // Assicurati che "AllOrders" sia la tua vista corretta
+            }
+        }
+        [HttpGet("GetProcessedOrdersCount")]
+        public async Task<IActionResult> GetProcessedOrdersCount()
+        {
+            var processedOrdersCount = await _dataContext.Orders.CountAsync(o => o.IsProcessed == true);
+
+            return Ok(processedOrdersCount);
+        }
+
+        [HttpGet("GetTotalIncome")]
+        public async Task<IActionResult> GetTotalIncome()
+        {
+            var totalIncome = await _dataContext.Orders
+                .Where(o => o.IsProcessed == true) //remove if you want to get total income of all orders (not only processed)
+                .SumAsync(o => o.TotalAmount);
+            return Ok(totalIncome);
         }
 
     }

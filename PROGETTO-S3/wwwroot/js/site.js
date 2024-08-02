@@ -1,4 +1,41 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿let firstPath = '/Order/GetProcessedOrdersCount';
 
-// Write your JavaScript code.
+let secondPath = '/Order/GetTotalIncome';
+function getProcessedOrdersCount() {
+    $.ajax({
+        url: firstPath,
+        method: 'GET',
+        success: (data) => {
+            const countElement = $('#processedOrdersCount');
+            countElement.addClass('border border-dark px-2 fs-4');
+            countElement.text(data);
+        },
+        error: (err) => {
+            console.error('Error fetching processed orders count:', err);
+        }
+    });
+}
+
+function getTotalIncome() {
+    $.ajax({
+        url: secondPath,
+        method: 'GET',
+        success: (data) => {
+            const countElement = $('#totalIncome');
+            countElement.addClass('border border-dark px-2 fs-4');
+            countElement.text(data + "€");
+        },
+        error: (err) => {
+            console.error('Error fetching total income:', err);
+        }
+    });
+}
+
+
+$('#btnGetProcessedCount').on('click', () => {
+    getProcessedOrdersCount();
+});
+
+$('#btnGetTotalIncome').on('click', () => {
+    getTotalIncome();
+});

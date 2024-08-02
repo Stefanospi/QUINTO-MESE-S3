@@ -16,7 +16,10 @@ namespace PROGETTO_S3.Services.OrderServ
 
         public async Task CreateOrder(Order order)
         {
-            var cart = await _cartService.GetCartItems();
+            if (order == null) throw new ArgumentNullException(nameof(order));
+
+            var cart = await _cartService.GetCartItems() ?? throw new InvalidOperationException("Cart items not found.");
+            var totalAmount = await _cartService.TotalAmountOfCart();
 
             var newOrder = new Order
             {
@@ -24,19 +27,18 @@ namespace PROGETTO_S3.Services.OrderServ
                 AdditionalNotes = order.AdditionalNotes,
                 IsProcessed = false,
                 OrderDate = DateTime.Now,
-                TotalAmount = await _cartService.TotalAmountOfCart(),
+                TotalAmount = totalAmount,
                 IdUser = order.IdUser,
             };
 
-            // Aggiunge il nuovo ordine al contesto dei dati
             _dataContext.Orders.Add(newOrder);
-            await _dataContext.SaveChangesAsync(); // Salva per ottenere l'Id dell'ordine
+            await _dataContext.SaveChangesAsync(); 
 
             foreach (var item in cart)
             {
                 var productOrdered = new OrderedProduct
                 {
-                    IdOrder = newOrder.IdOrder, // Utilizza l'Id dell'ordine appena creato
+                    IdOrder = newOrder.IdOrder, 
                     IdProduct = item.IdProduct,
                     Quantity = item.Quantity
                 };
@@ -44,31 +46,26 @@ namespace PROGETTO_S3.Services.OrderServ
             }
 
             await _dataContext.SaveChangesAsync();
-            await _cartService.ClerCart(); // Assicurati che il metodo ClearCart esista in ICartService
+            await _cartService.ClerCart(); 
         }
-
         public async Task<List<Order>> GetAllOrders()
         {
             var orderListFalse = await _dataContext.Orders
-                .Where(o => o.IsProcessed == false)
                 .ToListAsync();
 
             return orderListFalse;
 
         }
 
-        public async Task<Order> IsProcessedTrue(int id)
+        public async Task<Order> IsProcessedTrue(int idOrder)
         {
-            var orderById = await _dataContext.Orders.FirstOrDefaultAsync(o => o.IdOrder == id);
+            var order = _dataContext.Orders.FirstOrDefault(o => o.IdOrder == idOrder);
+            if (order == null) throw new KeyNotFoundException("Order not found.");
 
-            if(orderById.IsProcessed == false)
-            {
-                orderById.IsProcessed = true;
-                await _dataContext.SaveChangesAsync();
-            }
+            order.IsProcessed = !order.IsProcessed;
+            await _dataContext.SaveChangesAsync();
 
-            return orderById;
-
+            return order;
         }
     }
 }
