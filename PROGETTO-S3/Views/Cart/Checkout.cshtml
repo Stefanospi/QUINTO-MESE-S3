@@ -4,7 +4,7 @@
     ViewData["Title"] = "Checkout";
 }
 
-<h1>Checkout</h1>
+<h1 class="font-personal">Checkout</h1>
 
 @if (Model.Count == 0)
 {
@@ -12,20 +12,20 @@
 }
 else
 {
-    <form asp-action="Checkout" method="post">
+    <form asp-action="Checkout" method="post" class="border-personal p-personal">
         <div class="form-group">
-            <label for="address">Address</label>
+            <label for="address" class="font-personal">Address</label>
             <input type="text" id="address" name="address" class="form-control" required />
         </div>
         <div class="form-group">
-            <label for="additionalNotes">Additional Notes</label>
+            <label for="additionalNotes" class="font-personal">Additional Notes</label>
             <textarea id="additionalNotes" name="additionalNotes" class="form-control"></textarea>
         </div>
 
-        <h3>Cart Summary</h3>
-        <table class="table table-striped">
+        <h3 class="font-personal">Cart Summary</h3>
+        <table class="table table-striped border-personal">
             <thead>
-                <tr>
+                <tr class="bg-personal2">
                     <th>Product Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
@@ -43,12 +43,12 @@ else
                     </tr>
                 }
                 <tr>
-                    <td colspan="3" class="text-right"><strong>Total:</strong></td>
+                    <td colspan="3" class="text-right font-personal"><strong>Total:</strong></td>
                     <td>@ViewBag.TotalAmount €</td>
                 </tr>
             </tbody>
         </table>
 
-        <button type="submit" class="btn btn-primary">Place Order</button>
+        <button type="submit" class="btn btn-personal">Place Order</button>
     </form>
 }

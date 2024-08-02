@@ -1,17 +1,21 @@
 ﻿@model IEnumerable<PROGETTO_S3.Models.Product>
 
-<h1>Products List</h1>
+@{
+    ViewData["Title"] = "Product List";
+}
 
-<table class="table table-striped">
+<h1 class="font-personal">Products List</h1>
+
+<table class="table table-striped border-personal">
     <thead>
-        <tr>
+        <tr class="bg-personal2">
             <th>ID</th>
             <th>Name</th>
             <th>Price</th>
             <th>Delivery Time (min)</th>
             <th>Image</th>
             <th>Ingredients</th>
-
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -51,13 +55,14 @@
                     <form asp-action="AddToCart" asp-controller="Cart" method="post">
                         <input type="hidden" name="productId" value="@product.IdProduct" />
                         <input type="number" name="quantity" value="1" min="1" />
-                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        <button type="submit" class="btn btn-personal">Add to Cart</button>
                     </form>
                 </td>
-
             </tr>
         }
     </tbody>
 </table>
-
-<a href="@Url.Action("CreateProducts", "Products")" class="btn btn-success">Create New Product</a>
+@if (User.IsInRole("admin"))
+{
+    <a href="@Url.Action("CreateProduct", "Product")" class="btn btn-personal2">Create New Product</a>
+}
